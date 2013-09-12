@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:panel="http://schemas.android.com/apk/res/com.gorgeous"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/headlayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/head" >
+
+            <ImageButton
+                android:id="@+id/head_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/head_btn_press"
+                android:scaleType="fitXY"
+                android:src="@drawable/share" />
+
+            <ImageButton
+                android:id="@+id/head_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/head_post"
+                android:background="@drawable/head_btn_press"
+                android:scaleType="fitXY"
+                android:src="@drawable/camera" />
+
+            <ImageButton
+                android:id="@+id/head_gallary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/head_camera"
+                android:background="@drawable/head_btn_press"
+                android:scaleType="fitXY"
+                android:src="@drawable/album" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/drawing_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headlayout" >
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/toollayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp" >
+
+            <ImageView
+                android:id="@+id/tool_eraser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/erase" />
+
+            <ImageView
+                android:id="@+id/tool_dust"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tool_eraser"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/dust" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true" >
+
+            <ImageView
+                android:id="@+id/black_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/black" />
+
+            <ImageView
+                android:id="@+id/red_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/red" />
+
+            <ImageView
+                android:id="@+id/yellow_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/yellow" />
+
+            <ImageView
+                android:id="@+id/blue_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/blue" />
+
+            <ImageView
+                android:id="@+id/green_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/purple_pen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/cyan" />
+
+            <ImageView
+                android:id="@+id/small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/small" />
+
+            <ImageView
+                android:id="@+id/normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/normal" />
+
+            <ImageView
+                android:id="@+id/large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/large" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:onClick="pAnimation" >
+
+                <ImageView
+                    android:id="@+id/friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/plus" />
+
+                <ImageView
+                    android:id="@+id/myplus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/composer_icn_plus" />
+            </FrameLayout>
+        </FrameLayout>
+    </RelativeLayout>
+
+    <com.gorgeous.view.Panel
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        panel:animationDuration="500"
+        panel:closedHandle="@drawable/ribbon"
+        panel:content="@+id/panelContent"
+        panel:handle="@+id/panelHandle"
+        panel:linearFlying="true"
+        panel:openedHandle="@drawable/ribbon_close"
+        panel:position="top" >
+
+        <Button
+            android:id="@+id/panelHandle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/panelContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outline"
+            android:orientation="vertical" >
+
+            <GridView
+                android:id="@+id/sns_gridview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:columnWidth="5dp"
+                android:gravity="center"
+                android:numColumns="2" >
+            </GridView>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ribbon_top" />
+        </LinearLayout>
+    </com.gorgeous.view.Panel>
+
+</FrameLayout>

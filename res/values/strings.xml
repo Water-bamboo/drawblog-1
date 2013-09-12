@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello, DrawBlog!</string>
+    <string name="app_name">DrawBlog</string>
+    <string name="share">Share your drawing</string>
+    <string name="share_draw_hint">Draw your imagination!</string> 
+    <string name="share_hint">Share your voice!</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="network_error">Network error</string>
+    <string name="network_check">Please check your network setting.</string>
+    <string name="setting">Setting</string>
+    
+    <string name="sina">Sina</string>
+    <string name="renren">Renren</string>
+    <string name="tencent">Tencent</string>
+    <string name="instagram">Instagram</string>
+
+</resources>
