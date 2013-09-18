@@ -97,8 +97,9 @@ public class MainDrawing extends Activity {
 
 	private AsyncTask<Void, Void, IOException> saveDataAsyncTask;
 
-	private ScaleAnimation sAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
-			Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+	private ScaleAnimation sAnimation = new ScaleAnimation(0.8f, 0.8f, 0.8f,
+			0.8f, Animation.RELATIVE_TO_SELF, 0.8f, Animation.RELATIVE_TO_SELF,
+			0.8f);
 
 	int blackX, blackY, redX, redY, yellowX, yellowY, blueX, blueY, greenX,
 			greenY, purpleY, purpleX, penSmallX, penSmallY, penNormalX,
