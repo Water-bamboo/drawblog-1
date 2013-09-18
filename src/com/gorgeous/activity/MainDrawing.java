@@ -100,12 +100,50 @@ public class MainDrawing extends Activity {
 	private ScaleAnimation sAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
 			Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
 
+	int blackX, blackY, redX, redY, yellowX, yellowY, blueX, blueY, greenX,
+			greenY, purpleY, purpleX, penSmallX, penSmallY, penNormalX,
+			penNormalY, penLargeX, penLargeY;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = MainDrawing.this;
 		mLayoutInflater = (LayoutInflater) mContext
 				.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+		blackX = this.getResources().getDimensionPixelSize(R.dimen.blackX);
+		blackY = this.getResources().getDimensionPixelSize(R.dimen.blackY);
+
+		redX = this.getResources().getDimensionPixelSize(R.dimen.redX);
+		redY = this.getResources().getDimensionPixelSize(R.dimen.redY);
+
+		yellowX = this.getResources().getDimensionPixelSize(R.dimen.yellowX);
+		yellowY = this.getResources().getDimensionPixelSize(R.dimen.yellowY);
+
+		blueX = this.getResources().getDimensionPixelSize(R.dimen.blueX);
+		blueY = this.getResources().getDimensionPixelSize(R.dimen.blueY);
+
+		greenX = this.getResources().getDimensionPixelSize(R.dimen.greenX);
+		greenY = this.getResources().getDimensionPixelSize(R.dimen.greenY);
+
+		purpleX = this.getResources().getDimensionPixelSize(R.dimen.purpleX);
+		purpleY = this.getResources().getDimensionPixelSize(R.dimen.purpleY);
+
+		penSmallX = this.getResources()
+				.getDimensionPixelSize(R.dimen.penSmallX);
+		penSmallY = this.getResources()
+				.getDimensionPixelSize(R.dimen.penSmallY);
+
+		penNormalX = this.getResources().getDimensionPixelSize(
+				R.dimen.penNormalX);
+		penNormalY = this.getResources().getDimensionPixelSize(
+				R.dimen.penNormalY);
+
+		penLargeX = this.getResources()
+				.getDimensionPixelSize(R.dimen.penLargeX);
+		penLargeY = this.getResources()
+				.getDimensionPixelSize(R.dimen.penLargeY);
+
 		initLayout();
 	}
 
@@ -610,8 +648,9 @@ public class MainDrawing extends Activity {
 	}
 
 	public void outAnimation() {
-		TranslateAnimation translateAnimation = new TranslateAnimation(0, 200,
-				0, 0);
+
+		TranslateAnimation translateAnimation = new TranslateAnimation(0,
+				blackX, 0, blackY);
 		translateAnimation.setInterpolator(new OvershootInterpolator());
 		translateAnimation.setDuration(anicatinoTime * 1 + 240);
 		translateAnimation.setFillEnabled(true);
@@ -631,14 +670,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(200, 0, 0, 0);
+				layoutParams.setMargins(blackX, 0, 0, blackY);
 				blackImage.setLayoutParams(layoutParams);
 			}
 		});
 		blackImage.startAnimation(translateAnimation);
 
-		TranslateAnimation translateAnimation1 = new TranslateAnimation(0, 190,
-				0, -60);
+		TranslateAnimation translateAnimation1 = new TranslateAnimation(0,
+				redX, 0, -redY);
 		translateAnimation1.setInterpolator(new OvershootInterpolator());
 		translateAnimation1.setDuration(anicatinoTime * 1 + 180);
 		translateAnimation1.setStartOffset(20);
@@ -659,14 +698,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(190, 0, 0, 60);
+				layoutParams.setMargins(redX, 0, 0, redY);
 				redImage.setLayoutParams(layoutParams);
 			}
 		});
 		redImage.startAnimation(translateAnimation1);
 
-		TranslateAnimation translateAnimation2 = new TranslateAnimation(0, 170,
-				0, -120);
+		TranslateAnimation translateAnimation2 = new TranslateAnimation(0,
+				yellowX, 0, -yellowY);
 		translateAnimation2.setInterpolator(new OvershootInterpolator());
 		translateAnimation2.setDuration(anicatinoTime * 1 + 120);
 		translateAnimation2.setStartOffset(40);
@@ -687,14 +726,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(170, 0, 0, 120);
+				layoutParams.setMargins(yellowX, 0, 0, yellowY);
 				yellowImage.setLayoutParams(layoutParams);
 			}
 		});
 		yellowImage.startAnimation(translateAnimation2);
 
-		TranslateAnimation translateAnimation3 = new TranslateAnimation(0, 120,
-				0, -165);
+		TranslateAnimation translateAnimation3 = new TranslateAnimation(0,
+				blueX, 0, -blueY);
 		translateAnimation3.setInterpolator(new OvershootInterpolator());
 		translateAnimation3.setDuration(anicatinoTime * 1 + 80);
 		translateAnimation3.setStartOffset(60);
@@ -715,14 +754,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(120, 0, 0, 165);
+				layoutParams.setMargins(blueX, 0, 0, blueY);
 				blueImage.setLayoutParams(layoutParams);
 			}
 		});
 		blueImage.startAnimation(translateAnimation3);
 
-		TranslateAnimation translateAnimation4 = new TranslateAnimation(0, 60,
-				0, -190);
+		TranslateAnimation translateAnimation4 = new TranslateAnimation(0,
+				greenX, 0, -greenY);
 		translateAnimation4.setInterpolator(new OvershootInterpolator());
 		translateAnimation4.setDuration(anicatinoTime * 1 + 40);
 		translateAnimation4.setStartOffset(80);
@@ -743,14 +782,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(60, 0, 0, 190);
+				layoutParams.setMargins(greenX, 0, 0, greenY);
 				greenImage.setLayoutParams(layoutParams);
 			}
 		});
 		greenImage.startAnimation(translateAnimation4);
 
-		TranslateAnimation translateAnimation5 = new TranslateAnimation(0, 0,
-				0, -200);
+		TranslateAnimation translateAnimation5 = new TranslateAnimation(0,
+				purpleX, 0, -purpleY);
 		translateAnimation5.setInterpolator(new OvershootInterpolator());
 		translateAnimation5.setDuration(anicatinoTime * 1);
 		translateAnimation5.setStartOffset(100);
@@ -771,14 +810,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(0, 0, 0, 200);
+				layoutParams.setMargins(purpleX, 0, 0, purpleY);
 				purpleImage.setLayoutParams(layoutParams);
 			}
 		});
 		purpleImage.startAnimation(translateAnimation5);
 
-		TranslateAnimation translateAnimation6 = new TranslateAnimation(0, 130,
-				0, -30);
+		TranslateAnimation translateAnimation6 = new TranslateAnimation(0,
+				penSmallX, 0, -penSmallY);
 		translateAnimation6.setInterpolator(new OvershootInterpolator());
 		translateAnimation6.setDuration(anicatinoTime * 1);
 		translateAnimation6.setStartOffset(40);
@@ -799,14 +838,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(130, 0, 0, 30);
+				layoutParams.setMargins(penSmallX, 0, 0, penSmallY);
 				penSmall.setLayoutParams(layoutParams);
 			}
 		});
 		penSmall.startAnimation(translateAnimation6);
 
-		TranslateAnimation translateAnimation7 = new TranslateAnimation(0, 95,
-				0, -95);
+		TranslateAnimation translateAnimation7 = new TranslateAnimation(0,
+				penNormalX, 0, -penNormalY);
 		translateAnimation7.setInterpolator(new OvershootInterpolator());
 		translateAnimation7.setDuration(anicatinoTime * 1 + 260);
 		translateAnimation7.setStartOffset(60);
@@ -827,14 +866,14 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(95, 0, 0, 95);
+				layoutParams.setMargins(penNormalX, 0, 0, penNormalY);
 				penNormal.setLayoutParams(layoutParams);
 			}
 		});
 		penNormal.startAnimation(translateAnimation7);
 
-		TranslateAnimation translateAnimation8 = new TranslateAnimation(0, 30,
-				0, -130);
+		TranslateAnimation translateAnimation8 = new TranslateAnimation(0,
+				penLargeX, 0, -penLargeY);
 		translateAnimation8.setInterpolator(new OvershootInterpolator());
 		translateAnimation8.setDuration(anicatinoTime * 1 + 300);
 		translateAnimation8.setStartOffset(80);
@@ -855,7 +894,7 @@ public class MainDrawing extends Activity {
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				layoutParams.gravity = Gravity.BOTTOM;
-				layoutParams.setMargins(30, 0, 0, 130);
+				layoutParams.setMargins(penLargeX, 0, 0, penLargeY);
 				penLarge.setLayoutParams(layoutParams);
 			}
 		});
@@ -877,66 +916,66 @@ public class MainDrawing extends Activity {
 		penSmall.setLayoutParams(layoutParams);
 		penLarge.setLayoutParams(layoutParams);
 
-		TranslateAnimation translateAnimation = new TranslateAnimation(200, 0,
-				0, 0);
+		TranslateAnimation translateAnimation = new TranslateAnimation(blackX,
+				0, 0, blackY);
 		translateAnimation.setDuration(anicatinoTime * 1);
 		translateAnimation.setFillEnabled(true);
 		blackImage.startAnimation(translateAnimation);
 
-		TranslateAnimation translateAnimation1 = new TranslateAnimation(190, 0,
-				-60, 0);
+		TranslateAnimation translateAnimation1 = new TranslateAnimation(redX,
+				0, -redY, 0);
 
 		translateAnimation1.setDuration(anicatinoTime * 1);
 		translateAnimation1.setStartOffset(30);
 		translateAnimation1.setFillEnabled(true);
 		redImage.startAnimation(translateAnimation1);
 
-		TranslateAnimation translateAnimation2 = new TranslateAnimation(170, 0,
-				-120, 0);
+		TranslateAnimation translateAnimation2 = new TranslateAnimation(
+				yellowX, 0, -yellowY, 0);
 		translateAnimation2.setDuration(anicatinoTime * 1);
 		translateAnimation2.setStartOffset(60);
 		translateAnimation2.setFillEnabled(true);
 		yellowImage.startAnimation(translateAnimation2);
 
-		TranslateAnimation translateAnimation3 = new TranslateAnimation(120, 0,
-				-165, 0);
+		TranslateAnimation translateAnimation3 = new TranslateAnimation(blueX,
+				0, -blueY, 0);
 		translateAnimation3.setDuration(anicatinoTime * 1);
 		translateAnimation3.setStartOffset(90);
 		translateAnimation3.setFillEnabled(true);
 		blueImage.startAnimation(translateAnimation3);
 
-		TranslateAnimation translateAnimation4 = new TranslateAnimation(60, 0,
-				-190, 0);
+		TranslateAnimation translateAnimation4 = new TranslateAnimation(greenX,
+				0, -greenY, 0);
 		translateAnimation4.setDuration(anicatinoTime * 1);
 		translateAnimation4.setStartOffset(120);
 		translateAnimation4.setFillEnabled(true);
 		greenImage.startAnimation(translateAnimation4);
 
-		TranslateAnimation translateAnimation5 = new TranslateAnimation(0, 0,
-				-200, 0);
+		TranslateAnimation translateAnimation5 = new TranslateAnimation(
+				purpleX, 0, -purpleY, 0);
 		translateAnimation5.setDuration(anicatinoTime * 1);
 		translateAnimation5.setStartOffset(150);
 		translateAnimation5.setFillEnabled(true);
 		purpleImage.startAnimation(translateAnimation5);
 
-		TranslateAnimation translateAnimation6 = new TranslateAnimation(130, 0,
-				-30, 0);
+		TranslateAnimation translateAnimation6 = new TranslateAnimation(
+				penSmallX, 0, -penSmallY, 0);
 		translateAnimation6.setInterpolator(new OvershootInterpolator());
 		translateAnimation6.setDuration(anicatinoTime * 1);
 		translateAnimation6.setStartOffset(30);
 		translateAnimation6.setFillEnabled(true);
 		penSmall.startAnimation(translateAnimation6);
 
-		TranslateAnimation translateAnimation7 = new TranslateAnimation(95, 0,
-				-95, 0);
+		TranslateAnimation translateAnimation7 = new TranslateAnimation(
+				penNormalX, 0, -penNormalY, 0);
 		translateAnimation7.setInterpolator(new OvershootInterpolator());
 		translateAnimation7.setDuration(anicatinoTime * 1);
 		translateAnimation7.setStartOffset(60);
 		translateAnimation7.setFillEnabled(true);
 		penNormal.startAnimation(translateAnimation7);
 
-		TranslateAnimation translateAnimation8 = new TranslateAnimation(30, 0,
-				-130, 0);
+		TranslateAnimation translateAnimation8 = new TranslateAnimation(
+				penLargeX, 0, -penLargeY, 0);
 		translateAnimation8.setInterpolator(new OvershootInterpolator());
 		translateAnimation8.setDuration(anicatinoTime * 1);
 		translateAnimation8.setStartOffset(90);
