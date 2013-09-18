@@ -5,139 +5,222 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gorgeous.activity.Loge;
+
 public class PaintView extends View {
-	private Paint mPaint;
+
+	private int curColor = Color.BLACK;
+	private float curWidth;
+	private float halfCurWidth;
+
+	private Paint circlePaint = new Paint();
+	private Paint paint = new Paint();
+	private Path path = new Path();
+
+	/**
+	 * Optimizes painting by invalidating the smallest possible area.
+	 */
+	private float lastTouchX;
+	private float lastTouchY;
+	private final RectF dirtyRect = new RectF();
+
+	private int mPictureHeight;
+	private int mPictureWidth;
+
+	private Canvas mCanvas;
 	private Bitmap mBitmap;
-	private Bitmap srcBitmap;
 
-	private int screenWidth;
-	private int screenHeight;
-	private int curColor;
-	private int curWidth;
+	public PaintView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 
-	private float touchX;
-	private float touchY;
+		curWidth = 5f;
+		halfCurWidth = 5f / 2;
 
-	Canvas canvas;
+		paint.setAntiAlias(true);
+		paint.setColor(Color.BLACK);
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeJoin(Paint.Join.ROUND);
+		paint.setStrokeWidth(curWidth);
 
-	public PaintView(Context context, int width, int height) {
-		super(context);
-		screenWidth = width;
-		screenHeight = height;
-		mPaint = new Paint();
-		mBitmap = Bitmap.createBitmap(screenWidth, screenHeight,
-				Bitmap.Config.ARGB_8888);
-		canvas = new Canvas(mBitmap);
-		canvas.save();
+		circlePaint.setColor(Color.BLACK);
+		circlePaint.setStrokeWidth(curWidth);
+		circlePaint.setAntiAlias(true);
 	}
 
-	public void setSrcPic(Bitmap src) {
-		srcBitmap = src;
-		drawPic(srcBitmap);
+	/**
+	 * Erases the signature.
+	 */
+	public void clear() {
+		path.reset();
+
+		// Repaints the entire view.
+		invalidate();
 	}
 
-	public void setPaint(int color, int width) {
-		mPaint.reset();
-		if (color != -2) {
-			mPaint.setColor(color);
-			curColor = color;
-		} else {
-			mPaint.setColor(curColor);
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		mPictureWidth = w;
+		mPictureHeight = h;
+
+		Loge.i("mPictureWidth = " + mPictureWidth + " mPictureHeight = "
+				+ mPictureHeight);
+		if (mCanvas == null && mBitmap == null && mPictureWidth > 0
+				&& mPictureHeight > 0) {
+			mBitmap = Bitmap.createBitmap(mPictureWidth, mPictureHeight,
+					Bitmap.Config.ARGB_8888);
+			mCanvas = new Canvas(mBitmap);
+			mCanvas.save();
 		}
-		if (width != -2) {
-			mPaint.setStrokeWidth(width);
-			curWidth = width;
-		} else {
-			mPaint.setStrokeWidth(curWidth);
-		}
-		if (color == Color.WHITE || curColor == Color.WHITE) {
-			mPaint.setColor(Color.BLACK);
-			mPaint.setXfermode(new PorterDuffXfermode(Mode.DST_OUT));
-		}
-		mPaint.setAntiAlias(true);
-		mPaint.setAlpha(255);
+		super.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
+		mCanvas.restore();
+		mCanvas.drawPath(path, paint);
+		mCanvas.save();
 		if (mBitmap != null)
 			canvas.drawBitmap(mBitmap, 0, 0, null);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		float x = 0;
-		float y = 0;
-		x = event.getX();
-		y = event.getY();
+		float eventX = event.getX();
+		float eventY = event.getY();
 
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			reDraw(x, y, false);
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			path.moveTo(eventX, eventY);
+			lastTouchX = eventX;
+			lastTouchY = eventY;
+			// There is no end point yet, so don't waste cycles invalidating.
+
+			// draw a point for the draw begin
+			mCanvas.drawCircle(eventX, eventY,
+					circlePaint.getStrokeWidth() / 2, circlePaint);
+			return true;
+
+		case MotionEvent.ACTION_MOVE:
+		case MotionEvent.ACTION_UP:
+			// Start tracking the dirty region.
+			resetDirtyRect(eventX, eventY);
+
+			// When the hardware tracks events faster than they are delivered,
+			// the
+			// event will contain a history of those skipped points.
+			int historySize = event.getHistorySize();
+			for (int i = 0; i < historySize; i++) {
+				float historicalX = event.getHistoricalX(i);
+				float historicalY = event.getHistoricalY(i);
+				expandDirtyRect(historicalX, historicalY);
+				path.lineTo(historicalX, historicalY);
+			}
+
+			// After replaying history, connect the line to the touch point.
+			path.lineTo(eventX, eventY);
+
+			// draw a point for the draw end to finish the path
+			mCanvas.drawCircle(eventX, eventY,
+					circlePaint.getStrokeWidth() / 2, circlePaint);
+			break;
+
+		default:
+			Loge.i("Ignored touch event: " + event.toString());
+			return false;
 		}
 
-		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			reDraw(x, y, true);
-		}
+		// Include half the stroke width to avoid clipping.
+		invalidate((int) (dirtyRect.left - halfCurWidth),
+				(int) (dirtyRect.top - halfCurWidth),
+				(int) (dirtyRect.right + halfCurWidth),
+				(int) (dirtyRect.bottom + halfCurWidth));
+
+		lastTouchX = eventX;
+		lastTouchY = eventY;
 
 		return true;
 	}
 
-	private void reDraw(float x, float y, boolean move) {
-		canvas.restore();
-		if (move) {
-			final float dx = (x - touchX) / 8;
-			final float dy = (y - touchY) / 8;
-			canvas.drawCircle(touchX, touchY, mPaint.getStrokeWidth() / 2,
-					mPaint);
-
-			for (int i = 1; i <= 8; i++) {
-				canvas.drawCircle(touchX + i * dx, touchY + i * dy,
-						mPaint.getStrokeWidth() / 2, mPaint);
-				canvas.drawLine(touchX + (i - 1) * dx, touchY + (i - 1) * dy,
-						touchX + i * dx, touchY + i * dy, mPaint);
-			}
-
-			touchX = x;
-			touchY = y;
-		} else {
-			touchX = x;
-			touchY = y;
-			canvas.drawCircle(x, y, mPaint.getStrokeWidth() / 2, mPaint);
+	/**
+	 * Called when replaying history to ensure the dirty region includes all
+	 * points.
+	 */
+	private void expandDirtyRect(float historicalX, float historicalY) {
+		if (historicalX < dirtyRect.left) {
+			dirtyRect.left = historicalX;
+		} else if (historicalX > dirtyRect.right) {
+			dirtyRect.right = historicalX;
 		}
-		invalidate();
-		canvas.save();
+		if (historicalY < dirtyRect.top) {
+			dirtyRect.top = historicalY;
+		} else if (historicalY > dirtyRect.bottom) {
+			dirtyRect.bottom = historicalY;
+		}
 	}
 
-	private void drawPic(Bitmap src) {
-		canvas.setBitmap(mBitmap);
-		if (src != null) {
-			canvas.drawBitmap(src, 0, 0, null);
-		} else {
-			canvas.drawColor(Color.WHITE);
-		}
+	/**
+	 * Resets the dirty region when the motion event occurs.
+	 */
+	private void resetDirtyRect(float eventX, float eventY) {
 
+		// The lastTouchX and lastTouchY were set when the ACTION_DOWN
+		// motion event occurred.
+		dirtyRect.left = Math.min(lastTouchX, eventX);
+		dirtyRect.right = Math.max(lastTouchX, eventX);
+		dirtyRect.top = Math.min(lastTouchY, eventY);
+		dirtyRect.bottom = Math.max(lastTouchY, eventY);
+	}
+
+	public void setPaint(int color, int width) {
+		path = new Path();
+
+		if (color != -2) {
+			paint.setColor(color);
+			circlePaint.setColor(color);
+			curColor = color;
+		} else {
+			paint.setColor(curColor);
+			circlePaint.setColor(curColor);
+		}
+		if (width != -2) {
+			paint.setStrokeWidth(width);
+			circlePaint.setStrokeWidth(width);
+			curWidth = width;
+		} else {
+			paint.setStrokeWidth(curWidth);
+			circlePaint.setStrokeWidth(curWidth);
+		}
+		if (color == Color.WHITE || curColor == Color.WHITE) {
+			paint.setColor(Color.BLACK);
+			paint.setXfermode(new PorterDuffXfermode(Mode.DST_OUT));
+
+			circlePaint.setColor(Color.BLACK);
+			circlePaint.setXfermode(new PorterDuffXfermode(Mode.DST_OUT));
+		} else {
+			paint.setXfermode(null);
+			circlePaint.setXfermode(null);
+		}
+		halfCurWidth = curWidth / 2;
 	}
 
 	public Bitmap getBitmap() {
-		canvas.drawBitmap(mBitmap, 0, 0, null);
 		return mBitmap;
 	}
 
 	public void dust() {
-		Paint paint = new Paint();
-		paint.setColor(Color.BLACK);
-		paint.setXfermode(new PorterDuffXfermode(Mode.DST_OUT));
-		paint.setAntiAlias(true);
-		paint.setAlpha(255);
-		canvas.setBitmap(mBitmap);
-		canvas.drawCircle(screenHeight / 2, screenHeight / 2, screenHeight,
-				paint);
+		path.reset();
+		mBitmap.recycle();
+		mBitmap = Bitmap.createBitmap(mPictureWidth, mPictureHeight,
+				Bitmap.Config.ARGB_8888);
+		mCanvas.setBitmap(mBitmap);
 		invalidate();
 	}
 }

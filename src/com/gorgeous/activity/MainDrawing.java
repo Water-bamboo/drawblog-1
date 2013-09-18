@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -146,11 +147,7 @@ public class MainDrawing extends Activity {
 		photoImageView.setDrawingCacheEnabled(true);
 		photoImageView.setBackgroundResource(R.drawable.outline);
 
-		paintView = new PaintView(this, screenWidth, paintHeight);
-		paintView.setPaint(Color.BLACK, 5);
-		paintView.setFocusable(true);
-		paintView.requestFocus();
-		paintView.setDrawingCacheEnabled(true);
+		paintView = new PaintView(this, null);
 
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 				screenWidth, paintHeight);
@@ -560,6 +557,7 @@ public class MainDrawing extends Activity {
 		return saveDataAsyncTask;
 	};
 
+	@SuppressLint("NewApi")
 	public static IOException saveToSDcard(Bitmap photo) {
 		long date = System.currentTimeMillis();
 		String pname = DateFormat.format("yyyy-MM-dd-hh-mm-ss", date)
