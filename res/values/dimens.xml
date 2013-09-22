@@ -4,31 +4,35 @@
     <dimen name="widget_margin_bottom">8dp</dimen>
     <dimen name="widget_margin_left">8dp</dimen>
     <dimen name="widget_margin_right">8dp</dimen>
-    <dimen name="blackX">100dp</dimen>
+    
+    <dimen name="blackX">110dp</dimen>
     <dimen name="blackY">0dp</dimen>
     
-    <dimen name="redX">95dp</dimen>
-    <dimen name="redY">30dp</dimen>
+    <dimen name="redX">105dp</dimen>
+    <dimen name="redY">35dp</dimen>
     
-    <dimen name="yellowX">85dp</dimen>
-    <dimen name="yellowY">60dp</dimen>
+    <dimen name="yellowX">90dp</dimen>
+    <dimen name="yellowY">67.5dp</dimen>
     
-    <dimen name="blueX">60dp</dimen>
-    <dimen name="blueY">82.5dp</dimen>
+    <dimen name="blueX">65dp</dimen>
+    <dimen name="blueY">95dp</dimen>
     
-    <dimen name="greenX">30dp</dimen>
-    <dimen name="greenY">95dp</dimen>
+    <dimen name="greenX">32.5dp</dimen>
+    <dimen name="greenY">110dp</dimen>
     
     <dimen name="purpleX">0dp</dimen>
-    <dimen name="purpleY">100dp</dimen>
+    <dimen name="purpleY">120dp</dimen>
     
-    <dimen name="penSmallX">65dp</dimen>
-    <dimen name="penSmallY">15dp</dimen>
+    <dimen name="penSmallX">70dp</dimen>
+    <dimen name="penSmallY">18dp</dimen>
     
-    <dimen name="penNormalX">47.5dp</dimen>
-    <dimen name="penNormalY">47.5dp</dimen>
+    <dimen name="penNormalX">55dp</dimen>
+    <dimen name="penNormalY">58dp</dimen>
     
     <dimen name="penLargeX">15dp</dimen>
-    <dimen name="penLargeY">65dp</dimen>
+    <dimen name="penLargeY">75dp</dimen>
+    
+    <dimen name="penPatternX">27dp</dimen>
+    <dimen name="penPatternY">33dp</dimen>
 
 </resources>

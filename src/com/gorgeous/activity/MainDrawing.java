@@ -72,7 +72,7 @@ public class MainDrawing extends Activity {
 
 	private ImageView blackImage, redImage, yellowImage, blueImage, greenImage,
 			purpleImage, plusImage, penNormal, penSmall, penLarge, dustButton,
-			earButton;
+			earButton, patternImage;
 	private ImageButton carButton, galButton, shareButton;
 	private FrameLayout drawFrameLayout;
 	private PaintView paintView;
@@ -103,7 +103,7 @@ public class MainDrawing extends Activity {
 
 	int blackX, blackY, redX, redY, yellowX, yellowY, blueX, blueY, greenX,
 			greenY, purpleY, purpleX, penSmallX, penSmallY, penNormalX,
-			penNormalY, penLargeX, penLargeY;
+			penNormalY, penLargeX, penLargeY, penPatternX, penPatternY;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +145,11 @@ public class MainDrawing extends Activity {
 		penLargeY = this.getResources()
 				.getDimensionPixelSize(R.dimen.penLargeY);
 
+		penPatternX = this.getResources().getDimensionPixelSize(
+				R.dimen.penPatternX);
+		penPatternY = this.getResources().getDimensionPixelSize(
+				R.dimen.penPatternY);
+
 		initLayout();
 	}
 
@@ -173,6 +178,7 @@ public class MainDrawing extends Activity {
 		penNormal = (ImageView) findViewById(R.id.normal);
 		penSmall = (ImageView) findViewById(R.id.small);
 		penLarge = (ImageView) findViewById(R.id.large);
+		patternImage = (ImageView) findViewById(R.id.pattern);
 
 		carButton = (ImageButton) findViewById(R.id.head_camera);
 		galButton = (ImageButton) findViewById(R.id.head_gallary);
@@ -221,6 +227,7 @@ public class MainDrawing extends Activity {
 		penSmall.setOnClickListener(smallClicked);
 		penNormal.setOnClickListener(normalClicked);
 		penLarge.setOnClickListener(largeClicked);
+		patternImage.setOnClickListener(patternClicked);
 
 		mGestureDetector = new GestureDetector(mContext,
 				new GestureDetector.OnGestureListener() {
@@ -529,6 +536,15 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			penLarge.startAnimation(sAnimation);
 			paintView.setPaint(-2, penList[2]);
+		}
+	};
+
+	private OnClickListener patternClicked = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			patternImage.startAnimation(sAnimation);
+			paintView.setPattern(0);
 		}
 	};
 
@@ -900,6 +916,34 @@ public class MainDrawing extends Activity {
 			}
 		});
 		penLarge.startAnimation(translateAnimation8);
+
+		TranslateAnimation translateAnimation9 = new TranslateAnimation(0,
+				penPatternX, 0, -penPatternY);
+		translateAnimation9.setInterpolator(new OvershootInterpolator());
+		translateAnimation9.setDuration(anicatinoTime * 1 + 300);
+		translateAnimation9.setStartOffset(80);
+		translateAnimation9.setFillEnabled(true);
+		translateAnimation9.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				layoutParams.gravity = Gravity.BOTTOM;
+				layoutParams.setMargins(penPatternX, 0, 0, penPatternY);
+				patternImage.setLayoutParams(layoutParams);
+			}
+		});
+		patternImage.startAnimation(translateAnimation9);
 	}
 
 	public void inAnimation() {
@@ -916,6 +960,7 @@ public class MainDrawing extends Activity {
 		penNormal.setLayoutParams(layoutParams);
 		penSmall.setLayoutParams(layoutParams);
 		penLarge.setLayoutParams(layoutParams);
+		patternImage.setLayoutParams(layoutParams);
 
 		TranslateAnimation translateAnimation = new TranslateAnimation(blackX,
 				0, 0, blackY);
@@ -982,6 +1027,14 @@ public class MainDrawing extends Activity {
 		translateAnimation8.setStartOffset(90);
 		translateAnimation8.setFillEnabled(true);
 		penLarge.startAnimation(translateAnimation8);
+
+		TranslateAnimation translateAnimation9 = new TranslateAnimation(
+				penPatternX, 0, -penPatternX, 0);
+		translateAnimation9.setInterpolator(new OvershootInterpolator());
+		translateAnimation9.setDuration(anicatinoTime * 1);
+		translateAnimation9.setStartOffset(90);
+		translateAnimation9.setFillEnabled(true);
+		patternImage.startAnimation(translateAnimation9);
 	}
 
 	public void showRotateAnimation(boolean sign) {

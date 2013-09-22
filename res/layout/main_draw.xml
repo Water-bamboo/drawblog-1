@@ -5,7 +5,6 @@
     android:layout_height="match_parent" >
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -165,6 +164,16 @@
 
             <ImageView
                 android:id="@+id/large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:src="@drawable/large" />
+
+            <ImageView
+                android:id="@+id/pattern"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
