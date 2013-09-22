@@ -255,7 +255,7 @@ public class PaintView extends View {
 		if (mPatternBitmap != null) {
 			mPatternBitmap.recycle();
 		}
-		mPatternBitmap = getBitmapFromResources(R.drawable.duck);
+		mPatternBitmap = getBitmapFromResources(R.drawable.bird1);
 	}
 
 	private Bitmap getBitmapFromResources(int resId) {
