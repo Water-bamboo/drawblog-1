@@ -13,6 +13,16 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/head" >
+            
+            <ImageView
+                android:id="@+id/pattern_now"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/monkey1" />
 
             <ImageButton
                 android:id="@+id/head_post"

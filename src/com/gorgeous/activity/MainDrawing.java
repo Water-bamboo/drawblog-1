@@ -544,7 +544,7 @@ public class MainDrawing extends Activity {
 		@Override
 		public void onClick(View v) {
 			patternImage.startAnimation(sAnimation);
-			paintView.setPattern(0);
+			int resId = paintView.setPattern();
 		}
 	};
 

@@ -250,12 +250,15 @@ public class PaintView extends View {
 		dirtyRect.bottom = Math.max(lastTouchY, eventY);
 	}
 
-	public void setPattern(int pattern) {
+	public int setPattern() {
 		mPattern = DRAW_PATTERN;
 		if (mPatternBitmap != null) {
 			mPatternBitmap.recycle();
 		}
-		mPatternBitmap = getBitmapFromResources(R.drawable.bird1);
+		int resId = R.drawable.duck1;
+		mPatternBitmap = getBitmapFromResources(R.drawable.duck1);
+		
+		return resId;
 	}
 
 	private Bitmap getBitmapFromResources(int resId) {
