@@ -180,7 +180,7 @@
                 android:clickable="true"
                 android:paddingBottom="2dp"
                 android:paddingLeft="3dp"
-                android:src="@drawable/large" />
+                android:src="@drawable/pattern" />
 
             <FrameLayout
                 android:layout_width="wrap_content"

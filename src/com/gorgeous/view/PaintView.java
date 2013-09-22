@@ -1,7 +1,5 @@
 package com.gorgeous.view;
 
-import java.io.ByteArrayOutputStream;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -257,15 +255,18 @@ public class PaintView extends View {
 		if (mPatternBitmap != null) {
 			mPatternBitmap.recycle();
 		}
-		mPatternBitmap = getBitmapFromResources(R.drawable.icon);
+		mPatternBitmap = getBitmapFromResources(R.drawable.duck);
 	}
 
 	private Bitmap getBitmapFromResources(int resId) {
 		Resources res = mCtx.getResources();
 		Bitmap origin = BitmapFactory.decodeResource(res, resId);
-		Bitmap finalRes = compressBitmap(origin);
-		origin.recycle();
-		return finalRes;
+		if (origin.getWidth() > TARGET_PATTERN_WIDTH) {
+			Bitmap finalRes = compressBitmap(origin);
+			origin.recycle();
+			return finalRes;
+		}
+		return origin;
 	}
 
 	private Bitmap compressBitmap(Bitmap originBitmap) {
