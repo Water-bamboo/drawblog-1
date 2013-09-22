@@ -1,9 +1,14 @@
 package com.gorgeous.view;
 
+import java.io.ByteArrayOutputStream;
+
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
@@ -13,14 +18,21 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gorgeous.R;
 import com.gorgeous.activity.Loge;
 
 public class PaintView extends View {
+
+	public static int TARGET_PATTERN_WIDTH = 60;
+
+	public static final int DRAW_LINE = 1310;
+	public static final int DRAW_PATTERN = 1311;
 
 	private int curColor = Color.BLACK;
 	private float curWidth;
 	private float halfCurWidth;
 
+	private Paint bitmapPaint = new Paint();
 	private Paint circlePaint = new Paint();
 	private Paint paint = new Paint();
 	private Path path = new Path();
@@ -38,8 +50,24 @@ public class PaintView extends View {
 	private Canvas mCanvas;
 	private Bitmap mBitmap;
 
+	private int mPattern;
+
+	private float formerTouchX;
+	private float formerTouchY;
+	private float patternGap;
+	private Bitmap mPatternBitmap;
+
+	private Context mCtx;
+
 	public PaintView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		mCtx = context;
+
+		mPattern = DRAW_LINE;
+		TARGET_PATTERN_WIDTH = mCtx.getResources().getDisplayMetrics().widthPixels / 20;
+		Loge.i("TARGET_PATTERN_WIDTH = " + TARGET_PATTERN_WIDTH);
+		patternGap = (float) Math.sqrt(TARGET_PATTERN_WIDTH
+				* TARGET_PATTERN_WIDTH * 2);
 
 		curWidth = 5f;
 		halfCurWidth = 5f / 2;
@@ -53,6 +81,8 @@ public class PaintView extends View {
 		circlePaint.setColor(Color.BLACK);
 		circlePaint.setStrokeWidth(curWidth);
 		circlePaint.setAntiAlias(true);
+
+		bitmapPaint.setFilterBitmap(true);
 	}
 
 	/**
@@ -60,7 +90,6 @@ public class PaintView extends View {
 	 */
 	public void clear() {
 		path.reset();
-
 		// Repaints the entire view.
 		invalidate();
 	}
@@ -85,7 +114,9 @@ public class PaintView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		mCanvas.restore();
-		mCanvas.drawPath(path, paint);
+		if (mPattern == DRAW_LINE) {
+			mCanvas.drawPath(path, paint);
+		}
 		mCanvas.save();
 		if (mBitmap != null)
 			canvas.drawBitmap(mBitmap, 0, 0, null);
@@ -93,6 +124,15 @@ public class PaintView extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if (mPattern == DRAW_LINE) {
+			return drawLines(event);
+		} else if (mPattern == DRAW_PATTERN) {
+			return drawPattern(event);
+		}
+		return false;
+	}
+
+	private boolean drawLines(MotionEvent event) {
 		float eventX = event.getX();
 		float eventY = event.getY();
 
@@ -149,6 +189,39 @@ public class PaintView extends View {
 		return true;
 	}
 
+	private boolean drawPattern(MotionEvent event) {
+		float eventX = event.getX();
+		float eventY = event.getY();
+
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			mCanvas.drawBitmap(mPatternBitmap, eventX, eventY, bitmapPaint);
+			formerTouchX = eventX;
+			formerTouchY = eventY;
+			break;
+		case MotionEvent.ACTION_MOVE:
+		case MotionEvent.ACTION_UP:
+
+			if (formerTouchX > 0 && formerTouchY > 0) {
+				float distace = distanceBetween2Point(eventX, eventY,
+						formerTouchX, formerTouchY);
+				if (patternGap < distace) {
+					mCanvas.drawBitmap(mPatternBitmap, eventX, eventY,
+							bitmapPaint);
+					formerTouchX = eventX;
+					formerTouchY = eventY;
+				}
+			}
+
+			break;
+		default:
+			Loge.i("Ignored touch event: " + event.toString());
+			return false;
+		}
+		invalidate();
+		return true;
+	}
+
 	/**
 	 * Called when replaying history to ensure the dirty region includes all
 	 * points.
@@ -179,7 +252,47 @@ public class PaintView extends View {
 		dirtyRect.bottom = Math.max(lastTouchY, eventY);
 	}
 
+	public void setPattern(int pattern) {
+		mPattern = DRAW_PATTERN;
+		if (mPatternBitmap != null) {
+			mPatternBitmap.recycle();
+		}
+		mPatternBitmap = getBitmapFromResources(R.drawable.icon);
+	}
+
+	private Bitmap getBitmapFromResources(int resId) {
+		Resources res = mCtx.getResources();
+		Bitmap origin = BitmapFactory.decodeResource(res, resId);
+		Bitmap finalRes = compressBitmap(origin);
+		origin.recycle();
+		return finalRes;
+	}
+
+	private Bitmap compressBitmap(Bitmap originBitmap) {
+		float sampleSize = TARGET_PATTERN_WIDTH
+				/ (float) originBitmap.getWidth();
+		Loge.i("sampleSize = " + sampleSize);
+		if (sampleSize > 1) {
+			sampleSize = 1;
+		}
+		Matrix matrix = new Matrix();
+		matrix.postScale(sampleSize, sampleSize);
+		Bitmap resizeBmp = Bitmap
+				.createBitmap(originBitmap, 0, 0, originBitmap.getWidth(),
+						originBitmap.getHeight(), matrix, true);
+		return resizeBmp;
+	}
+
+	private float distanceBetween2Point(float x1, float y1, float x2, float y2) {
+		float distance = (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2)
+				* (y1 - y2));
+		Loge.i("distanceBetween2Point = " + distance);
+		return distance;
+	}
+
 	public void setPaint(int color, int width) {
+		mPattern = DRAW_LINE;
+
 		path = new Path();
 
 		if (color != -2) {
