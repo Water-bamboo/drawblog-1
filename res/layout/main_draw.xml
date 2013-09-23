@@ -21,7 +21,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:src="@drawable/black" />
 
             <ImageButton
                 android:id="@+id/head_post"
