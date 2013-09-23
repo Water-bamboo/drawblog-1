@@ -21,10 +21,14 @@ import com.gorgeous.activity.Loge;
 
 public class PaintView extends View {
 
-	public static int TARGET_PATTERN_WIDTH = 60;
+	public static final int BIG_LINE = 35;
+	public static final int MIDDLE_LINE = 20;
+	public static final int SMALL_LINE = 5;
 
-	public static final int DRAW_LINE = 1310;
-	public static final int DRAW_PATTERN = 1311;
+	private static int TARGET_PATTERN_WIDTH = 60;
+
+	private static final int DRAW_LINE = 1310;
+	private static final int DRAW_PATTERN = 1311;
 
 	private int curColor = Color.BLACK;
 	private float curWidth;
@@ -54,6 +58,7 @@ public class PaintView extends View {
 	private float formerTouchY;
 	private float patternGap;
 	private Bitmap mPatternBitmap;
+	private int mPatternResId;
 
 	private Context mCtx;
 
@@ -255,24 +260,24 @@ public class PaintView extends View {
 		if (mPatternBitmap != null) {
 			mPatternBitmap.recycle();
 		}
-		int resId = R.drawable.duck1;
+		mPatternResId = R.drawable.duck1;
 		mPatternBitmap = getBitmapFromResources(R.drawable.duck1);
-		
-		return resId;
+
+		return mPatternResId;
 	}
 
 	private Bitmap getBitmapFromResources(int resId) {
 		Resources res = mCtx.getResources();
 		Bitmap origin = BitmapFactory.decodeResource(res, resId);
 		if (origin.getWidth() > TARGET_PATTERN_WIDTH) {
-			Bitmap finalRes = compressBitmap(origin);
+			Bitmap finalRes = scaleBitmap(origin);
 			origin.recycle();
 			return finalRes;
 		}
 		return origin;
 	}
 
-	private Bitmap compressBitmap(Bitmap originBitmap) {
+	private Bitmap scaleBitmap(Bitmap originBitmap) {
 		float sampleSize = TARGET_PATTERN_WIDTH
 				/ (float) originBitmap.getWidth();
 		Loge.i("sampleSize = " + sampleSize);
@@ -295,6 +300,28 @@ public class PaintView extends View {
 	}
 
 	public void setPaint(int color, int width) {
+
+		if (mPattern == DRAW_PATTERN && color == -2) {
+			switch (width) {
+			case SMALL_LINE:
+				TARGET_PATTERN_WIDTH = mCtx.getResources().getDisplayMetrics().widthPixels / 20;
+				break;
+			case MIDDLE_LINE:
+				TARGET_PATTERN_WIDTH = mCtx.getResources().getDisplayMetrics().widthPixels / 15;
+				break;
+			case BIG_LINE:
+				TARGET_PATTERN_WIDTH = mCtx.getResources().getDisplayMetrics().widthPixels / 10;
+				break;
+			default:
+				break;
+			}
+			patternGap = (float) Math.sqrt(TARGET_PATTERN_WIDTH
+					* TARGET_PATTERN_WIDTH * 2);
+			mPatternBitmap.recycle();
+			mPatternBitmap = getBitmapFromResources(mPatternResId);
+			return;
+		}
+
 		mPattern = DRAW_LINE;
 
 		path = new Path();

@@ -19,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -59,13 +60,15 @@ public class MainDrawing extends Activity {
 	private final static int SAVE_DIALOG = 2335;
 	private final static int NETWORK_DIALOG = 2336;
 	private final static int anicatinoTime = 100;
-	private final static String PATH_SD = "/mnt/sdcard/drawblog/";
+	private final static String PATH_SD = Environment
+			.getExternalStorageDirectory().getPath() + "/DrawBlog/Cache";
 	private final static String SHARE_PHOTO = "com.gorgeous.sharephoto";
 
 	private String[] snsName = { "Sina", "Renren", "Tencent", "Instagram" };
 	private final static int[] colorList = { Color.BLACK, Color.RED,
 			Color.YELLOW, Color.BLUE, Color.GREEN, Color.CYAN };
-	private final static int[] penList = { 5, 20, 35 };
+	private final static int[] penList = { PaintView.SMALL_LINE,
+			PaintView.MIDDLE_LINE, PaintView.BIG_LINE };
 
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
