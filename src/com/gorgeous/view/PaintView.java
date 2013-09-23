@@ -269,7 +269,7 @@ public class PaintView extends View {
 		if (mPatternBitmap != null) {
 			mPatternBitmap.recycle();
 		}
-		int num = (int) (Math.round(Math.random() * 21));
+		int num = (int) (Math.round(Math.random() * patternList.length));
 		Loge.i("random number = " + num + " patternList size = "
 				+ patternList.length);
 		if (num < patternList.length) {
