@@ -75,7 +75,7 @@ public class MainDrawing extends Activity {
 
 	private ImageView blackImage, redImage, yellowImage, blueImage, greenImage,
 			purpleImage, plusImage, penNormal, penSmall, penLarge, dustButton,
-			earButton, patternImage;
+			earButton, patternImage, patternPreviewImage;
 	private ImageButton carButton, galButton, shareButton;
 	private FrameLayout drawFrameLayout;
 	private PaintView paintView;
@@ -170,6 +170,8 @@ public class MainDrawing extends Activity {
 
 		mPanel = (Panel) findViewById(R.id.top);
 		mPanel.setVisibility(View.GONE);
+
+		patternPreviewImage = (ImageView) findViewById(R.id.pattern_now);
 
 		plusImage = (ImageView) findViewById(R.id.myplus);
 		blackImage = (ImageView) findViewById(R.id.black_pen);
@@ -447,7 +449,7 @@ public class MainDrawing extends Activity {
 			earButton.startAnimation(sAnimation);
 			showPlusAnim();
 			paintView.setPaint(Color.WHITE, -2);
-
+			patternPreviewImage.setImageResource(R.drawable.erase);
 		}
 	};
 
@@ -467,6 +469,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			blackImage.startAnimation(sAnimation);
 			paintView.setPaint(colorList[0], -2);
+			patternPreviewImage.setImageResource(R.drawable.black);
 		}
 	};
 
@@ -476,6 +479,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			redImage.startAnimation(sAnimation);
 			paintView.setPaint(colorList[1], -2);
+			patternPreviewImage.setImageResource(R.drawable.red);
 		}
 	};
 
@@ -485,6 +489,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			yellowImage.startAnimation(sAnimation);
 			paintView.setPaint(colorList[2], -2);
+			patternPreviewImage.setImageResource(R.drawable.yellow);
 		}
 	};
 
@@ -494,6 +499,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			blueImage.startAnimation(sAnimation);
 			paintView.setPaint(colorList[3], -2);
+			patternPreviewImage.setImageResource(R.drawable.blue);
 		}
 	};
 
@@ -503,6 +509,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			greenImage.startAnimation(sAnimation);
 			paintView.setPaint(colorList[4], -2);
+			patternPreviewImage.setImageResource(R.drawable.green);
 		}
 	};
 
@@ -512,6 +519,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			purpleImage.startAnimation(sAnimation);
 			paintView.setPaint(colorList[5], -2);
+			patternPreviewImage.setImageResource(R.drawable.cyan);
 		}
 	};
 
@@ -548,6 +556,7 @@ public class MainDrawing extends Activity {
 		public void onClick(View v) {
 			patternImage.startAnimation(sAnimation);
 			int resId = paintView.setPattern();
+			patternPreviewImage.setImageResource(resId);
 		}
 	};
 

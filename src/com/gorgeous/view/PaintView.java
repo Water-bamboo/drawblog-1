@@ -30,6 +30,15 @@ public class PaintView extends View {
 	private static final int DRAW_LINE = 1310;
 	private static final int DRAW_PATTERN = 1311;
 
+	private final static int[] patternList = { R.drawable.bird1,
+			R.drawable.cat1, R.drawable.cat2, R.drawable.cat3, R.drawable.cat4,
+			R.drawable.cat5, R.drawable.cat6, R.drawable.cat7,
+			R.drawable.chicken1, R.drawable.chicken2, R.drawable.dog1,
+			R.drawable.duck1, R.drawable.monkey1, R.drawable.panda1,
+			R.drawable.pig1, R.drawable.rabbit1, R.drawable.rabbit2,
+			R.drawable.rabbit3, R.drawable.rabbit4, R.drawable.rabbit5,
+			R.drawable.rabbit6 };
+
 	private int curColor = Color.BLACK;
 	private float curWidth;
 	private float halfCurWidth;
@@ -260,8 +269,16 @@ public class PaintView extends View {
 		if (mPatternBitmap != null) {
 			mPatternBitmap.recycle();
 		}
-		mPatternResId = R.drawable.duck1;
-		mPatternBitmap = getBitmapFromResources(R.drawable.duck1);
+		int num = (int) (Math.round(Math.random() * 21));
+		Loge.i("random number = " + num + " patternList size = "
+				+ patternList.length);
+		if (num < patternList.length) {
+			mPatternResId = patternList[num];
+		} else {
+			mPatternResId = R.drawable.duck1;
+		}
+
+		mPatternBitmap = getBitmapFromResources(mPatternResId);
 
 		return mPatternResId;
 	}
