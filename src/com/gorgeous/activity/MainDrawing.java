@@ -345,7 +345,7 @@ public class MainDrawing extends Activity {
 				}
 			});
 			return new AlertDialog.Builder(this)
-					.setMessage(getResources().getString(R.string.share))
+					.setTitle(getResources().getString(R.string.share))
 					.setView(editView)
 					.setPositiveButton(
 							getResources().getString(R.string.cancel),
