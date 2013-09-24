@@ -37,7 +37,9 @@ public class PaintView extends View {
 			R.drawable.duck1, R.drawable.monkey1, R.drawable.panda1,
 			R.drawable.pig1, R.drawable.rabbit1, R.drawable.rabbit2,
 			R.drawable.rabbit3, R.drawable.rabbit4, R.drawable.rabbit5,
-			R.drawable.rabbit6 };
+			R.drawable.rabbit6, R.drawable.lego1, R.drawable.lego2,
+			R.drawable.lego3, R.drawable.lego4, R.drawable.lego5,
+			R.drawable.lego6, R.drawable.lego7, R.drawable.lego8 };
 
 	private int curColor = Color.BLACK;
 	private float curWidth;
