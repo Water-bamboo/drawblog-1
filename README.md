@@ -1,4 +1,4 @@
-涂鸦微博
+涂鸦微博 [![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.gorgeous)
 =========
 <img src="https://www.evernote.com/shard/s153/sh/96794dde-4fcd-43eb-8eda-d5b23e448651/4c5b15abf42f89dd64ef862904715321/deep/0/device-2013-09-21-162003.png">
 简介
