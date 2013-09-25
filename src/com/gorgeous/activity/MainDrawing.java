@@ -285,6 +285,18 @@ public class MainDrawing extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		if (finalB != null && !finalB.isRecycled()) {
+			finalB.recycle();
+		}
+		if (paintView != null) {
+			if (paintView.mBitmap != null && !paintView.mBitmap.isRecycled()) {
+				paintView.mBitmap.recycle();
+			}
+			if (paintView.mPatternBitmap != null
+					&& !paintView.mPatternBitmap.isRecycled()) {
+				paintView.mPatternBitmap.recycle();
+			}
+		}
 		super.onDestroy();
 	}
 

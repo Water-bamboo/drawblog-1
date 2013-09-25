@@ -63,15 +63,16 @@ public class PaintView extends View {
 	private int mPictureWidth;
 
 	private Canvas mCanvas;
-	private Bitmap mBitmap;
 
 	private int mPattern;
 
 	private float formerTouchX;
 	private float formerTouchY;
 	private float patternGap;
-	private Bitmap mPatternBitmap;
 	private int mPatternResId;
+
+	public Bitmap mBitmap;
+	public Bitmap mPatternBitmap;
 
 	private Context mCtx;
 
@@ -117,6 +118,11 @@ public class PaintView extends View {
 
 		Loge.i("mPictureWidth = " + mPictureWidth + " mPictureHeight = "
 				+ mPictureHeight);
+		if (mBitmap != null && !mBitmap.isRecycled()) {
+			mBitmap.recycle();
+			mBitmap = null;
+		}
+
 		if (mCanvas == null && mBitmap == null && mPictureWidth > 0
 				&& mPictureHeight > 0) {
 			mBitmap = Bitmap.createBitmap(mPictureWidth, mPictureHeight,
